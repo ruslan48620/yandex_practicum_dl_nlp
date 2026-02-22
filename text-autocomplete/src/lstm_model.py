@@ -37,7 +37,6 @@ class LSTMAutocompleteModel(nn.Module):
         packed_out, hidden = self.lstm(packed, hidden)
         outputs, _ = pad_packed_sequence(packed_out, batch_first=True) # (batch_size, seq_len, hidden_dim)
 
-        # logits = self.fc(hidden[-1])
         logits = self.fc(outputs) # (batch_size, seq_len, vocab_size)
         return logits
 

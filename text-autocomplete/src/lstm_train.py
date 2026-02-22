@@ -1,7 +1,8 @@
 import torch
+import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 from src.eval_lstm import evaluate_lstm_rouge
-from tqdm import tqdm
 
 
 def move_batch_to_device(batch, device):
@@ -28,10 +29,7 @@ def train_one_epoch(model, loader, optimizer, criterion, device, grad_clip=1.0):
 
         optimizer.zero_grad()
         logits = model(ids, lengths)
-        # print(f'logits.shape: {logits.shape}')
-        # print(f'labels.shape: {labels.shape}')
         loss = criterion(logits.view(-1, logits.size(-1)), labels.view(-1))
-        # loss = criterion(logits.view(-1, logits.size(-1)), labels.view(-1))
         loss.backward()
 
         torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
@@ -54,7 +52,6 @@ def evaluate_loss(model, loader, criterion, device):
         ids, labels, lengths = move_batch_to_device(batch, device)
 
         logits = model(ids, lengths)
-        # loss = criterion(logits.view(-1, logits.size(-1)), labels.view(-1))
         loss = criterion(logits.view(-1, logits.size(-1)), labels.view(-1))
 
         total_loss += loss.item()
@@ -87,7 +84,7 @@ def train_lstm_model(model,
             loader=val_loader,
             tokenizer=tokenizer,
             device=device,
-            print_examples=print_examples if epoch == num_epochs-1 else 0,
+            print_examples=print_examples if epoch % 1 == 0 else 0,
         )
 
         row = {
@@ -110,3 +107,28 @@ def train_lstm_model(model,
     return history
 
 
+def plot_training_history(df):
+    '''
+    Вывод графиков функции потерь и функции качества при обучении
+    '''
+    # --- Loss ---
+    plt.figure(figsize=(8, 5))
+    plt.plot(df['epoch'], df['train_loss'], label='Train Loss')
+    plt.plot(df['epoch'], df['val_loss'], label='Val Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Loss over epochs')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+    # --- ROUGE ---
+    plt.figure(figsize=(8, 5))
+    plt.plot(df['epoch'], df['rouge1'], label='ROUGE-1')
+    plt.plot(df['epoch'], df['rouge2'], label='ROUGE-2')
+    plt.xlabel('Epoch')
+    plt.ylabel('ROUGE')
+    plt.title('ROUGE over epochs')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
