@@ -10,7 +10,7 @@ class NextTokenDataset(Dataset):
 
         # токенизируем каждую строку и сохраняем последовательности токенов
         for line in texts:
-            token_ids = tokenizer.encode(line, add_special_tokens=True, return_tensors='pt')
+            token_ids = tokenizer.encode(line, add_special_tokens=False, return_tensors='pt')
             self.encodings.append(token_ids.squeeze(0))
 
     def __len__(self):

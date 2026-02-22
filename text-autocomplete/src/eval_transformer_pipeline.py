@@ -19,8 +19,7 @@ def create_distilgpt2_generator(model_name='distilgpt2', device='cpu'):
         tokenizer.pad_token = tokenizer.eos_token
 
     model = AutoModelForCausalLM.from_pretrained(model_name)
-    # Keep generation defaults in GenerationConfig to avoid passing both
-    # generation_config and generation kwargs on each call.
+    
     model.generation_config.do_sample = True
     model.generation_config.top_k = 50
     model.generation_config.top_p = 0.95
@@ -28,8 +27,6 @@ def create_distilgpt2_generator(model_name='distilgpt2', device='cpu'):
     model.generation_config.repetition_penalty = 1.1
     model.generation_config.num_return_sequences = 1
     model.generation_config.pad_token_id = tokenizer.eos_token_id
-    # max_new_tokens is controlled dynamically per sample, so remove max_length
-    # from config to avoid conflicts.
     model.generation_config.max_length = None
 
     generator = pipeline(
