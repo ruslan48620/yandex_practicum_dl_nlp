@@ -1,0 +1,11 @@
+# venv
+.ya_dl_sprint2_project_venv/
+
+# cache
+src/__pycache__/
+
+# tmp_files
+*_tmp.txt
+
+# IDE
+.vscode/
