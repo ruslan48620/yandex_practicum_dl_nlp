@@ -1,0 +1,8 @@
+# venv
+.ya_dl_sprint3_project_venv/
+
+# tmp_files
+tmp/
+
+# IDE
+.vscode/
