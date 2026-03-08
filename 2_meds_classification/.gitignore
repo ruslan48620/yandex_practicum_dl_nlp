@@ -1,8 +1,12 @@
 # venv
 .ya_dl_sprint3_project_venv/
 
+# IDE
+.vscode/
+*.code-workspace
+
 # tmp_files
 tmp/
 
-# IDE
-.vscode/
+# data
+data/
