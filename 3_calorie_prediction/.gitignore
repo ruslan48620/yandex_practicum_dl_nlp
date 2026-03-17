@@ -1,0 +1,12 @@
+# venv
+.ya_dl_sprint4_project_venv/
+
+# IDE
+.vscode/
+*.code-workspace
+
+# tmp_files
+tmp/
+
+# data
+data/
