@@ -5,6 +5,9 @@
 .vscode/
 *.code-workspace
 
+# cache
+__pycache__/
+
 # tmp_files
 tmp/
 
