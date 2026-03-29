@@ -13,3 +13,6 @@ tmp/
 
 # data
 data/
+
+# large model files
+*.pt
